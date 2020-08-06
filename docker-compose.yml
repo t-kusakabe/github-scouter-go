@@ -1,0 +1,10 @@
+version: "3.7"
+services:
+  go:
+    build:
+      contenxt: .
+      target: build
+    volumes:
+      - ./:/go/src/github.com/github-scouter-go
+    ports:
+      - 8080:8080
