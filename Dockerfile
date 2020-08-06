@@ -11,7 +11,10 @@ ENV CGO_ENABLED=0
 ENV GOOS=linux
 ENV GOARCH=amd64
 
-RUN go build -o app main.go
+RUN apk update && \
+      apk add --no-cache git && \
+    go build -o app main.go && \
+    go get github.com/oxequa/realize
 
 
 ##########################

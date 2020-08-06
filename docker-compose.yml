@@ -2,8 +2,10 @@ version: "3.7"
 services:
   go:
     build:
-      contenxt: .
-      target: build
+      context: .
+      target: builder
+    container_name: github-scouter-go
+    command: realize start --run --no-config
     volumes:
       - ./:/go/src/github.com/github-scouter-go
     ports:
