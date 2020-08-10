@@ -3,10 +3,6 @@ services:
   go:
     build:
       context: .
-      target: builder
     container_name: github-scouter-go
-    command: realize start --run --no-config
-    volumes:
-      - ./:/go/src/github.com/github-scouter-go
     ports:
       - 8080:8080

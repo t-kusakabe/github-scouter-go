@@ -13,9 +13,7 @@ ENV GOARCH=amd64
 
 RUN apk update && \
       apk add --no-cache git && \
-    go build -o app main.go && \
-    go get github.com/oxequa/realize
-
+    go build -o app main.go
 
 ##########################
 ## Application Container
