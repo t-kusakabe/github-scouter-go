@@ -9,10 +9,6 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type body struct {
-	UserName string `json:user_name`
-}
-
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("Top Page.")
@@ -31,17 +27,19 @@ func contributions(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	doc, err := goquery.NewDocument("https://github.com/users/t-kusakabe/contributions")
+	userName := r.FormValue("username")
+	doc, err := goquery.NewDocument("https://github.com/users/" + userName + "/contributions")
 	if err != nil {
 		fmt.Println("failed url")
 	}
 
 	var allFill uint64
-
-	doc.Find("svg g g rect").Each(func(_ int, s *goquery.Selection) {
-		url, _ := s.Attr("fill")
-		v, _ := strconv.ParseUint(url[1:6], 16, 0)
-		allFill += v
+	doc.Find("rect").Each(func(_ int, s *goquery.Selection) {
+		hex, _ := s.Attr("fill")
+		if hex[1:7] != "ebedf0" {
+			v, _ := strconv.ParseUint(hex[1:7], 16, 0)
+			allFill += 16777215 - v
+		}
 	})
 
 	json, _ := json.Marshal(allFill)
